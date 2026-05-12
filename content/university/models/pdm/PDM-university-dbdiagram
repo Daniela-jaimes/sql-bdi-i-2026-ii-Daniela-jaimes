@@ -1,0 +1,83 @@
+Table Faculty {
+  faculty_id INT [pk, increment]
+  name VARCHAR(45)
+}
+Table Course {
+  course_id INT [pk, increment]
+  course_name VARCHAR(45)
+  faculty_id INT 
+}
+Table Programs {
+  programs_id INT [pk, increment]
+  name_program VARCHAR(45)
+  faculty_id INT 
+}
+Table Programs_courses {
+  cprograms_id INT [pk, increment]
+  semester_curriculum INT
+  course_id INT
+  program_id INT
+}
+
+Table Schedule {
+  schedule_id INT [pk, increment]
+  day VARCHAR(45)
+  start_time VARCHAR(45)
+  end_time VARCHAR(45)
+}
+
+Table Course_calender {
+  classroom_id INT [pk, increment]
+  capacity INT
+  course_id INT
+  clasroom_id INT
+  schedule_id INT
+  teacher_id INT
+}
+
+Table Classrooms {
+  classroom_id INT [pk, increment]
+  name VARCHAR(45)
+  building_id INT
+}
+Table Building {
+  building_id INT [pk, increment]
+  building_name VARCHAR(45)
+}
+
+Table Student_course {
+  course_id INT [pk, increment]
+  course_calender_id INT
+  user_id INT
+}
+
+Table Students_program {
+  student_id INT [pk, increment]
+  program_id INT
+  semester_id INT
+}
+
+Table Users {
+  user_id INT [pk, increment]
+  last_name VARCHAR(45)
+  first_name VARCHAR(45)
+  role_id INT
+}
+Table role {
+  role_id INT [pk, increment]
+  name VARCHAR(45)
+}
+
+Ref: Course.faculty_id > Faculty.faculty_id
+Ref: Programs.faculty_id > Faculty.faculty_id
+Ref: Programs_courses.course_id > Course.course_id
+Ref: Programs_courses.program_id > Programs.programs_id
+Ref: Course_calender.course_id > Course.course_id
+Ref: Course_calender.schedule_id > Schedule.schedule_id
+Ref: Course_calender.clasroom_id > Classrooms.classroom_id
+Ref: Classrooms.building_id > Building.building_id
+Ref: Student_course.course_calender_id > Course_calender.classroom_id
+Ref: Student_course.user_id > Users.user_id
+Ref: Students_program.student_id > Users.user_id
+Ref: Students_program.program_id > Programs.programs_id
+Ref: Users.role_id > role.role_id

@@ -1,0 +1,98 @@
+erDiagram
+
+FACULTY {
+  int faculty_id PK
+  string name
+}
+
+PROGRAM {
+  int program_id PK
+  string program_name
+  int faculty_id FK
+}
+
+COURSE {
+  int course_id PK
+  string course_name
+  int faculty_id FK
+}
+
+ROLE {
+  int role_id PK
+  string name
+}
+
+USER {
+  int user_id PK
+  string first_name
+  string last_name
+  int role_id FK
+}
+
+BUILDING {
+  int building_id PK
+  string building_name
+}
+
+CLASSROOM {
+  int classroom_id PK
+  string name
+  int building_id FK
+}
+
+SCHEDULE {
+  int schedule_id PK
+  string day
+  string start_time
+  string end_time
+}
+
+COURSE_CALENDAR {
+  int course_calendar_id PK
+  int capacity
+  int course_id FK
+  int schedule_id FK
+  int classroom_id FK
+  int teacher_id FK
+}
+
+PROGRAM_COURSE {
+  int pcprogram_id PK
+  int semester_curriculum
+  int course_id FK
+  int program_id FK
+}
+
+STUDENT_PROGRAM {
+  int student_id FK
+  int program_id FK
+  int user_id FK
+  int semester_id
+}
+
+STUDENT_COURSE {
+  int course_id FK
+  int course_calendar_id FK
+  int user_id FK
+}
+
+FACULTY ||--o{ PROGRAM : has
+FACULTY ||--o{ COURSE : offers
+
+PROGRAM ||--o{ PROGRAM_COURSE : contains
+COURSE ||--o{ PROGRAM_COURSE : included_in
+
+ROLE ||--o{ USER : assigns
+
+BUILDING ||--o{ CLASSROOM : contains
+
+COURSE ||--o{ COURSE_CALENDAR : scheduled_as
+SCHEDULE ||--o{ COURSE_CALENDAR : defines
+CLASSROOM ||--o{ COURSE_CALENDAR : hosts
+USER ||--o{ COURSE_CALENDAR : teaches
+
+USER ||--o{ STUDENT_PROGRAM : enrolls
+PROGRAM ||--o{ STUDENT_PROGRAM : has_students
+
+USER ||--o{ STUDENT_COURSE : takes
+COURSE_CALENDAR ||--o{ STUDENT_COURSE : includes
